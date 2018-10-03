@@ -75,9 +75,9 @@ class Pg24pay extends PaymentModule{
 
         $newOption = new PaymentOption();
         $newOption->setModuleName($this->name)
-                ->setCallToActionText('Zaplatit cez 24-pay')
+                ->setCallToActionText($this->l('Pay by 24-pay'))
                 ->setAction($this->context->link->getModuleLink($this->name, 'payment', array(), true))
-                ->setAdditionalInformation('Platba prostredníctvom platobnej brány 24-pay.');
+                ->setAdditionalInformation($this->l('Pay by card or internet banking'));
         $payment_options = [
             $newOption,
         ];
