@@ -1,2 +1,2 @@
-# 24payprestashop1_7
-Official module for prestashop ver. 1.7
+# pg24pay
+24pay module for Prestashop 1.7
