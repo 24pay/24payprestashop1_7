@@ -1,0 +1,2 @@
+
+<h1>FUNGUJEM -{$PAY24_TEMP}-</h1>
