@@ -13,7 +13,7 @@ class Pg24paySign {
     public $key;
     
     
-    private $_mode = MCRYPT_MODE_CBC;
+    private $_mode = "CBC";
     private $_cipher;
     private $_paddingType;
     private $iv;
@@ -42,7 +42,7 @@ class Pg24paySign {
 			
 		}
 		else{
-			
+			$this->_mode = MCRYPT_MODE_CBC;
 			$this->_cipher = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', $this->_mode, '');
 			
 			if ($this->_paddingType == 'PKCS7'){
