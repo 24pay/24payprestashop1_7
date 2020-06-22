@@ -1,16 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of veintequatropago_sign
  *
- * @author durcak
+ * @author 24-pay
  */
+
 class Pg24paySign {
     public $debug;
     public $mid;
@@ -30,7 +25,7 @@ class Pg24paySign {
         $this->key =  Configuration::get('PAY24_KEY');
         
         /* SIGN GENERATOR SETTING */
-        $this->_cipher = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', $this->_mode, '');
+        $this->_cipher = "";
         $this->_paddingType = 'PKCS7';
         $this->iv = $this->mid.strrev($this->mid);
     }
@@ -40,15 +35,26 @@ class Pg24paySign {
     }
     
     public function getSign($plaintext){
-        if ($this->_paddingType == 'PKCS7'){
-            $data = $this->AddPadding($this->getData($plaintext));
-        }
- 
-        mcrypt_generic_init($this->_cipher, $this->getHexKey(), $this->iv);
-        $result = mcrypt_generic($this->_cipher, $data);
-        mcrypt_generic_deinit($this->_cipher);
-      
-        return strtoupper(substr(bin2hex($result),0,32));
+		if ( PHP_VERSION_ID >= 50303 && extension_loaded( 'openssl' ) ) {
+			$hash = $this->getData($plaintext);
+			$crypted = openssl_encrypt( $hash, 'AES-256-CBC', $this->getHexKey(), 1, $this->iv );
+			return strtoupper(bin2hex(substr($crypted, 0, 16)));
+			
+		}
+		else{
+			
+			$this->_cipher = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', $this->_mode, '');
+			
+			if ($this->_paddingType == 'PKCS7'){
+				$data = $this->AddPadding($this->getData($plaintext));
+			}
+	 
+			mcrypt_generic_init($this->_cipher, $this->getHexKey(), $this->iv);
+			$result = mcrypt_generic($this->_cipher, $data);
+			mcrypt_generic_deinit($this->_cipher);
+		  
+			return strtoupper(substr(bin2hex($result),0,32));
+		}
     }
     
     /* SIGN SUPPORT METHODS */
