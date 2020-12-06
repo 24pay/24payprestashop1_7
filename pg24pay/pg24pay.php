@@ -126,7 +126,8 @@ class Pg24pay extends PaymentModule{
 
         $this->baseConfig();
 
-        $output = $this->fetchTemplate('/views/templates/admin/back_office.tpl');
+        //$output = $this->fetchTemplate('/views/templates/admin/back_office.tpl');
+	$output = $this->context->smarty->fetch('module:pg24pay/views/templates/admin/back_office.tpl');
 
         if ($this->active == false) {
             return $output;
