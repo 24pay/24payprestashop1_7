@@ -33,10 +33,12 @@ class Pg24payTestModuleFrontController extends ModuleFrontController
     {
         //parent::initContent();
         $this->context->smarty->assign(array(
-            'PAY24_TEMP' => $_GET['temp'],
+            'PAY24_TEMP' => $this->context->link->getModuleLink('pg24pay','test',[])
         ));
-        
-        $this->setTemplate('test.tpl');
+			
+        //$this->setTemplate('test.tpl');
+		
+		$this->setTemplate('module:pg24pay/views/templates/front/test.tpl');
     }
 
 }
