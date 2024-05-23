@@ -71,9 +71,12 @@ class Pg24payOrder {
         $this->country = $this->convertCountryCodeToIsoA3($country->iso_code);
                 
         $this->amount = number_format($cart->getOrderTotal(true, Cart::BOTH), 2, '.', '');
-        
+        /*
         $this->rurl = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'module/pg24pay/rurl';
         $this->nurl = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'module/pg24pay/nurl';
+        */
+        $this->rurl = Context::getContext()->link->getModuleLink('pg24pay','rurl',[]);
+		$this->nurl = Context::getContext()->link->getModuleLink('pg24pay','nurl',[]);
     }
     
     private function convertCountryCodeToIsoA3($isoa2code) {
